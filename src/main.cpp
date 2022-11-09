@@ -7,13 +7,7 @@ void setup() {
     Serial.begin(115200);
     while(!Serial);
 
-    Serial.println("===== ROBOT SETUP =====");
-    pinMode(LED_BUILTIN, OUTPUT);
-
     servos_init();
-
-    Serial.println("===== SETUP END =====");
-
     socket_init();
 }
 

@@ -745,6 +745,8 @@ void servos_start() {
 TaskHandle_t Task0;
 
 void servos_init() {
+    pinMode(LED_BUILTIN, OUTPUT);
+
     // Options are: 240 (default), 160, 80, 40, 20 and 10 MHz
  
     setCpuFrequencyMhz(80);
@@ -789,10 +791,10 @@ void servos_init() {
 void servos_loop() {
     //-----------led blink status
     if (ledPulse <= ledSpeed) {
-        // digitalWrite(LED_BUILTIN, HIGH);
+        digitalWrite(LED_BUILTIN, HIGH);
     }
     if (ledPulse > ledSpeed*3) {
-        // digitalWrite(LED_BUILTIN, LOW);
+        digitalWrite(LED_BUILTIN, LOW);
     }
     if (ledPulse >= ledSpeed*4) {
         ledPulse = 0;
@@ -801,30 +803,33 @@ void servos_loop() {
     ledPulse++;
     String lastComm = getLastComm();
     
-    Serial.print("Comm= ");
-    Serial.println(lastComm);
+    // Serial.print("Comm= ");
+    // Serial.println(lastComm);
 
     if (lastComm == "") {
         stand();
     }
+
     if (lastComm == "FWD") {
         step_forward(1);
-        
     }
+
     if (lastComm == "BWD") {
         step_back(1);
     }
+
     if (lastComm == "LFT") {
         turn_left(1);
     }
+
     if (lastComm == "RGT") {
         turn_right(1);
     }
+
     if (lastComm == "STP") {
         sit();
     }
     
-
 #ifdef TIMER_INTERRUPT_DEBUG
     Serial.printf("%05lu loop counter: %lu\n",(unsigned long)millis(),(unsigned long)sst.rest_counter);
 #endif
