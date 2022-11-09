@@ -10,6 +10,11 @@
 
 #include "eeprom/eeprom.h"
 
+#include "html/css/style.h"
+#include "html/img/favicon.h"
+#include "html/js/javascript.h"
+#include "html/index.h"
+
 void set_HTML_Server();
 void initWebSocket();
 

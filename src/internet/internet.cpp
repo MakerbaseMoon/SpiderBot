@@ -140,37 +140,41 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len, uint32_t id) {
 
 
 void set_HTML_Server(){
-    if(!SPIFFS.begin(true)){            
-        Serial.println(F("SPIFFS error"));  
-        while(1);
-    }
+    // https://tomeko.net/online_tools/file_to_hex.php?lang=en
 
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(SPIFFS, "/index.html", "text/html");    
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/html", html_index_html, HTML_INDEX_HTML_LEN);
+        request->send(response);
     });
     
     server.on("/main.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(SPIFFS, "/js/main.js", "text/javascript");
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_main_js, HTML_MAIN_JS_LEN);
+        request->send(response);
     });
 
     server.on("/value.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(SPIFFS, "/js/value.js", "text/javascript");
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_value_js, HTML_VALUE_JS_LEN);
+        request->send(response);
     });
     
     server.on("/websocket.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(SPIFFS, "/js/websocket.js", "text/javascript");
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_websocket_js, HTML_WEBSOCKET_JS_LEN);
+        request->send(response);
     });
 
     server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(SPIFFS, "/css/style.css", "text/css");
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/css", html_style_css, HTML_STYLE_CSS_LEN);
+        request->send(response);
     });
 
-    server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(SPIFFS, "/css/style.css", "text/css");
+    server.on("/img/favicon.jpg", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_ico_gz, favicon_ico_gz_len);
+        request->send(response);
     });
 
     server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(SPIFFS, "/img/favicon.jpg", "image/jpg");
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_ico_gz, favicon_ico_gz_len);
+        request->send(response);
     });
 
     server.on("/set/info", HTTP_POST, [](AsyncWebServerRequest *request) {
@@ -255,24 +259,6 @@ int set_server_post_eeprom_data(AsyncWebServerRequest *request) {
             } else {
                 Serial.printf("set_esp_mdns Error.\n");
                 server_post_eeprom_data_error_code += (1 << 4);
-            }
-        }
-
-        if((int)*(p->name().c_str()) == 53) { // 5
-            if(set_github_token(p->value().c_str())) {
-                Serial.printf("set_github_token OK.\n");
-            } else {
-                Serial.printf("set_github_token Error.\n");
-                server_post_eeprom_data_error_code += (1 << 5);
-            }
-        }
-
-        if((int)*(p->name().c_str()) == 54) { // 6
-            if(set_motor_pin(p->value().c_str())) {
-                Serial.printf("set_motor_pin OK.\n");
-            } else {
-                Serial.printf("set_motor_pin Error.\n");
-                server_post_eeprom_data_error_code += (1 << 6);
             }
         }
     }

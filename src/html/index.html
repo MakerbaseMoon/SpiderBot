@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link href="/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <header class="p-3 text-bg-dark">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                            <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                        </svg>
+                    </a>
+            
+                    <ul class="nav h4 col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
+                        <li><a href="#mode_Text" class="nav-link px-2 text-white" id="mode_Auto">AutoMode</a></li>
+                        <li><a href="#mode_Text" class="nav-link px-2 text-white" id="mode_Control">ControlMode</a></li>
+                        <li><a href="#aboutme" class="nav-link px-2 text-white">About</a></li>
+                    </ul>
+                   
+                    <div class="text-end">        
+                        <span class="h4">勞動部物連網創客基地</span>
+                        <a href="https://www.wda.gov.tw/cp.aspx?n=575F716EF3A537C0">
+                            <img class="rounded-3" src="img/favicon.jpg" height="40vh">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main> 
+            <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
+                </div>
+                <div class="carousel-inner text-center">
+                    <div class="carousel-item active .offset-md-4 col-md-4 p-5" style="background:#777;" data-bs-interval="3000"> 
+                        <img src="https://cdn.discordapp.com/attachments/834623905548468226/997705764103802910/2.jpg" class="img-fluid rounded-1" alt="...">
+                    </div>
+                    <div class="carousel-item p-5 .offset-md-4" style="background:#777;" data-bs-interval="3000">
+                        <img src="https://cdn.discordapp.com/attachments/631421586729074698/1010430500894150666/1.1.jpg" class="img-fluid rounded-1" alt="...">
+                    </div>
+                    <div class="carousel-item p-5 .offset-md-4" style="background:#777;" data-bs-interval="3000">
+                        <img src="https://cdn.discordapp.com/attachments/631421586729074698/1010428778918449223/image3.jpg" class="img-fluid rounded-1" alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <div class="container text-center">
+                <h1 class="display-4">
+                    <span id="mode_Text">Control Mode</span> 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-arrow-down-up" viewBox="0 0 16 16" id="switch_Mode" style="color:rgb(230, 68, 47)">
+                        <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                    <p id="distance" class="h2">Distance:</p>
+                </h1>
+                <div class="row justify-content-center p-3 ">
+                    <div class="col-md-4 col-sm-4">
+                        <button type="button" id="forward" class="btn btn-outline-info" style="--bs-btn-font-size: 2.0rem; --bs-btn-padding-y: 1rem; --bs-btn-padding-x: 2rem;">forward</button>
+                    </div>
+                </div>
+                <div class="row p-3">
+                    <div class="col-md-4 col-sm-6 p-3">
+                        <button type="button" id="left" class="btn btn-outline-info" style="--bs-btn-font-size: 2.0rem; --bs-btn-padding-y: 1rem; --bs-btn-padding-x: 4rem;">left</button>
+                    </div>
+                    <div class="col-md-4 col-sm-6 p-3">
+                        <button type="button" id="stop" class="btn btn-outline-info" style="--bs-btn-font-size: 2.0rem; --bs-btn-padding-y: 1rem; --bs-btn-padding-x: 3.7rem;">stop</button>
+                    </div>
+                    <div class="col-md-4 col-sm-6 p-3">
+                        <button type="button" id="right" class="btn btn-outline-info" style="--bs-btn-font-size: 2.0rem; --bs-btn-padding-y: 1rem; --bs-btn-padding-x: 3.7rem;">right</button>
+                    </div>
+                </div>
+                <div class="row justify-content-center p-3">
+                    <div class="col-md-4 col-sm-4">
+                        <button type="button" id="back" class="btn btn-outline-info" style="--bs-btn-font-size: 2.0rem; --bs-btn-padding-y: 1rem; --bs-btn-padding-x: 3.7rem;">back</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer id="aboutme">
+            <div class="container-fuild text-muted footer_div text-center" style="background-color: rgb(175, 219, 205);">  
+                <div id="aboutme" class="p-2">
+                    <p style="font-size: 20px;"><span>指導教授：許榮隆教授</span></p>
+                    <p><span>團隊成員：賴政勳 </span></p>
+                    <p><span>團隊成員：呂芳杰</span></p>
+                    <div class="footer_div_information">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-moon-stars" viewBox="0 0 16 16">
+                            <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278zM4.858 1.311A7.269 7.269 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.316 7.316 0 0 0 5.205-2.162c-.337.042-.68.063-1.029.063-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286z"/>
+                            <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"/>
+                        </svg>
+                        <span>望月智聯網研究團隊</span>
+                        <p><span>AIOT KNU</span></p>
+                        <p> The moon is the true friend of mine</p>
+                        <p class="text-center text-muted">© 2022 Company, Inc</p>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="/value.js"></script>
+    <script src="/websocket.js"></script>
+    <script src="/main.js"></script>
+</html>
