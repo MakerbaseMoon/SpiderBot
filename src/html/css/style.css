@@ -1,8 +1,28 @@
-html, body {
+html,body {
     padding: 0px;
     margin: 0px;
 }
 
-img{
-    max-width:100%;
+main { 
+    background-color: rgb(189, 151, 206);
+}
+
+p { 
+    line-height: 10px;
+}
+
+footer { 
+    background-color: rgb(155, 202, 216);
+}
+
+.img_spider {
+    width: 40vw;
+
+}
+.img_content { 
+    height: auto;
+}
+
+#setting, #upgrade {
+    color: rgb(47, 58, 58);
 }

@@ -147,10 +147,16 @@ void set_HTML_Server(){
         request->send(response);
     });
     
+    server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", bootstrap_js, BOOTSTRAP_JS_LEN);
+        request->send(response);
+    });
+
     server.on("/main.js", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_main_js, HTML_MAIN_JS_LEN);
         request->send(response);
     });
+
 
     server.on("/value.js", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_value_js, HTML_VALUE_JS_LEN);
@@ -167,13 +173,23 @@ void set_HTML_Server(){
         request->send(response);
     });
 
+    server.on("/bootstrap.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/css", bootstrap_css, BOOTSTRAP_CSS_LEN);
+        request->send(response);
+    });
+
     server.on("/img/favicon.jpg", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_ico_gz, favicon_ico_gz_len);
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_ico_gz, FAVICON_ICO_GZ_LEN);
         request->send(response);
     });
 
     server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_ico_gz, favicon_ico_gz_len);
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_ico_gz, FAVICON_ICO_GZ_LEN);
+        request->send(response);
+    });
+
+    server.on("/spider_jpg", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", spider_jpg, SPIDER_JPG_LEN);
         request->send(response);
     });
 

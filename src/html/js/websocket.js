@@ -20,48 +20,6 @@ function onMessages(event) {
 }
 
 function button_Click() { 
-    mode_Auto.addEventListener('click', ()=> { 
-        mode_Text.innerText = "Auto Mode";
-        websocket.send("Auto");
-        car_Stop.disabled = true;
-        forward.disabled = true;
-        back.disabled = true;
-        left.disabled = true;
-        right.disabled = true;
-        
-    });
-    
-    mode_Control.addEventListener('click', ()=> { 
-        mode_Text.innerText = "Control Mode";
-        websocket.send("Control");
-        car_Stop.disabled = false;
-        forward.disabled = false;
-        back.disabled = false;
-        left.disabled = false;
-        right.disabled = false;
-    });
-
-    switch_Mode.addEventListener('click', ()=> { 
-        if(mode_Text.innerText ==  "Control Mode") { 
-            mode_Text.innerText = "Auto Mode";
-            websocket.send("Auto");
-            car_Stop.disabled = true;
-            forward.disabled = true;
-            back.disabled = true;
-            left.disabled = true;
-            right.disabled = true;
-            
-        } else if (mode_Text.innerText == "Auto Mode") { 
-            mode_Text.innerText = "Control Mode";
-            websocket.send("Control");
-            car_Stop.disabled = false;
-            forward.disabled = false;
-            back.disabled = false;
-            left.disabled = false;
-            right.disabled = false;
-        }
-    });
-
     car_Stop.addEventListener('click', ()=> { 
         console.log("car stop");
         websocket.send("0");
