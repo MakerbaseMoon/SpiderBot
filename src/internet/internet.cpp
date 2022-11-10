@@ -11,8 +11,7 @@ String getLastComm() {
     return lastComm;
 }
 
-void socket_init()
-{
+void socket_init() {
     char* ssid = NULL;
     char* passwd = NULL;
 
@@ -24,20 +23,6 @@ void socket_init()
     WiFi.mode(WIFI_MODE_APSTA);
 
     eeprom_setup(&ssid, &passwd, &ap_ssid, &ap_passwd, &mdns);
-
-    esp_info = "{\"STA\":{\"SSID\":\"";
-    esp_info += ssid;
-    esp_info += "\",\"PASSWD\":\"";
-    esp_info += passwd;
-    esp_info += "\"},\"AP\":{\"SSID\":\"";
-    esp_info += ap_ssid;
-    esp_info += "\",\"PASSWD\":\"";
-    esp_info += ap_passwd;
-    esp_info += "\"},\"version\":\"";
-    esp_info += SPIDER_VERSION;
-    esp_info += "\",\"MAC\":\"";
-    esp_info += WiFi.macAddress();
-    esp_info += "\"}";
 
     if(!MDNS.begin(mdns)) {
         Serial.printf("Error starting mDNS.\n");
@@ -59,17 +44,40 @@ void socket_init()
 
     Serial.printf("\n");
 
+    String localIP = "";
     if(WiFi.status() != WL_CONNECTED) {
         String ap_name = (String)ap_ssid + "_" + WiFi.macAddress();
         Serial.printf("ESP32 AP SSID: %s\n", ap_name.c_str());
         WiFi.softAP(ap_name.c_str(), ap_passwd);
-        
+        localIP = "null";
+
     } else {
-        Serial.printf("ESP32 ClientIP Address: %s\n", WiFi.localIP().toString().c_str());
-        String ap_name = (String)ap_ssid + "_" + WiFi.localIP().toString();
+        localIP = WiFi.localIP().toString();
+        Serial.printf("ESP32 ClientIP Address: %s\n", localIP.c_str());
+        String ap_name = (String)ap_ssid + "_" + localIP;
         Serial.printf("ESP32 AP SSID: %s\n", ap_name.c_str());
         WiFi.softAP(ap_name.c_str(), ap_passwd);
     }
+
+    esp_info = "{\"STA\":{\"SSID\":\"";
+    esp_info += (String)ssid;
+    esp_info += "\",\"PASSWD\":\"";
+    esp_info += (String)passwd;
+    esp_info += "\",\"IP\":\"";
+    esp_info += localIP;
+    esp_info += "\"},\"AP\":{\"SSID\":\"";
+    esp_info += (String)ap_ssid;
+    esp_info += "\",\"PASSWD\":\"";
+    esp_info += (String)ap_passwd;
+    esp_info += "\",\"IP\":\"";
+    esp_info += WiFi.softAPIP().toString();
+    esp_info += "\"},\"version\":\"";
+    esp_info += (String)SPIDER_VERSION;
+    esp_info += "\",\"mdns\":\"";
+    esp_info += (String)mdns;
+    esp_info += "\",\"MAC\":\"";
+    esp_info += WiFi.macAddress();
+    esp_info += "\"}";
 
     set_HTML_Server();
     initWebSocket();
@@ -168,6 +176,16 @@ void set_HTML_Server(){
         request->send(response);
     });
 
+    server.on("/wifi.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_WiFi_js, HTML_WIFI_JS_LEN);
+        request->send(response);
+    });
+
+    server.on("/github.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_github_js, HTML_GITHUB_JS_LEN);
+        request->send(response);
+    });
+
     server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "text/css", html_style_css, HTML_STYLE_CSS_LEN);
         request->send(response);
@@ -193,6 +211,11 @@ void set_HTML_Server(){
         request->send(response);
     });
 
+    server.on("/system/reboot", HTTP_GET, [](AsyncWebServerRequest *request) {
+         request->send(200, "text/plain", "susses");
+         ESP.restart();
+    });
+
     server.on("/set/info", HTTP_POST, [](AsyncWebServerRequest *request) {
         int error_code = set_server_post_eeprom_data(request);
         if(error_code) {
@@ -201,8 +224,18 @@ void set_HTML_Server(){
         } else {
             request->send(200, "text/plain", "OK");
             delay(1000);
-            ESP.restart();
+            // ESP.restart();
         }
+    });
+
+    server.on("/ota/update", HTTP_POST, [](AsyncWebServerRequest *request) {
+        AsyncWebParameter *param = request->getParam(0);
+        String url = "";
+        if(param->name().indexOf("url") >= 0) {
+            url = param->value();
+        }
+        Serial.printf("ESP32 Github Url: %s\n", url.c_str());
+        request->send(200, "text/plain", "susses");  
     });
 
     server.on("/get/info", HTTP_POST, [](AsyncWebServerRequest *request) {
