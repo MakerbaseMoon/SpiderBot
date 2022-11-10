@@ -8,4 +8,3 @@ let back         = document.getElementById("back");
 
 let setting      = document.getElementById("setting");
 let upgrade      = document.getElementById("upgrade");
-
