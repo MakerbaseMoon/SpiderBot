@@ -7,8 +7,24 @@ String lastComm = "";
 
 String esp_info = "";
 
+String ota_url = "";
+
+bool isOTAMode = false;
+
 String getLastComm() {
     return lastComm;
+}
+
+bool getIsOTAMode() {
+    return isOTAMode;
+}
+
+String getOTAUrl() {
+    return ota_url;
+}
+
+void ws_loop() {
+    ws.cleanupClients();
 }
 
 void socket_init() {
@@ -148,6 +164,11 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len, uint32_t id) {
 
 
 void set_HTML_Server(){
+    if(!SPIFFS.begin()) {
+        Serial.printf("An Error has occurred while mounting SPIFFS\n");
+        while(1);
+    }
+
     // https://tomeko.net/online_tools/file_to_hex.php?lang=en
 
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -190,14 +211,12 @@ void set_HTML_Server(){
     });
 
     /* bootstrap */
-    server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_bootstrap_js, HTML_BOOTSTRAP_JS_LEN);
-        request->send(response);
+    server.on("/bootstrap.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(SPIFFS, "/bootstrap.css", "text/css");
     });
 
-    server.on("/bootstrap.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/css", html_bootstrap_css, HTML_BOOTSTRAP_CSS_LEN);
-        request->send(response);
+    server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(SPIFFS, "/bootstrap.js", "text/javascript");
     });
 
     /* Image */
@@ -218,35 +237,48 @@ void set_HTML_Server(){
     });
 
     /* Data */
-
-    server.on("/set/info", HTTP_POST, [](AsyncWebServerRequest *request) {
-        int error_code = set_server_post_eeprom_data(request);
-        if(error_code) {
-            Serial.printf("ESP32 Set data error: %d\n", error_code);
-            request->send(200, "text/plain", "Error");
+    server.on("/set/default", HTTP_POST, [](AsyncWebServerRequest *request) {
+        int num = set_eeprom_default();
+        if(!num) {
+            request->send(200, "text/plain", "error");
         } else {
-            request->send(200, "text/plain", "OK");
-            delay(1000);
-            // ESP.restart();
+            request->send(200, "text/plain", "susses");
         }
-    });
-
-    server.on("/ota/update", HTTP_POST, [](AsyncWebServerRequest *request) {
-        AsyncWebParameter *param = request->getParam(0);
-        String url = "";
-        if(param->name().indexOf("url") >= 0) {
-            url = param->value();
-        }
-        Serial.printf("ESP32 Github Url: %s\n", url.c_str());
-        request->send(200, "text/plain", "susses");  
     });
 
     server.on("/get/info", HTTP_POST, [](AsyncWebServerRequest *request) {
         request->send(200, "text/plain", esp_info);  
     });
 
+    server.on("/set/info", HTTP_POST, [](AsyncWebServerRequest *request) {
+        int error_code = set_server_post_eeprom_data(request);
+        if(error_code) {
+            Serial.printf("ESP32 Set data error: %d\n", error_code);
+            request->send(200, "text/plain", "error");
+        } else {
+            request->send(200, "text/plain", "susses");
+            // delay(1000);
+            // ESP.restart();
+        }
+    });
+
+    server.on("/ota/update", HTTP_POST, [](AsyncWebServerRequest *request) {
+        AsyncWebParameter *param = request->getParam(0);
+        if(param->name().indexOf("url") >= 0) {
+            ota_url = param->value();
+            Serial.printf("ESP32 Github Url: %s\n", ota_url.c_str());
+            request->send(200, "text/plain", "susses");
+            isOTAMode = true;
+
+        } else {
+            request->send(200, "text/plain", "error");
+            isOTAMode = false;
+        }
+    });
+    
     server.on("/system/reboot", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send(200, "text/plain", "susses");
+        delay(1000);
         ESP.restart();
     });
 

@@ -1,6 +1,8 @@
 let github_owner = "MakerbaseMoon";
 let github_repo = "SpiderBot";
 
+let github_list = [];
+
 function get_github_list_releases() {
     try {
         let request = new XMLHttpRequest();
@@ -11,7 +13,10 @@ function get_github_list_releases() {
         request.addEventListener("load", () => {
             let data = JSON.parse(request.responseText);
             for(let i = 0; i < data.length; i++) {
+                github_list[i]['tag_name']  = data[i].tag_name;
+                github_list[i]['body']      = data[i].body;
                 console.log(data[i].tag_name);
+                console.log(data[i].body);
             }
         });
     } catch(e) {
@@ -87,4 +92,18 @@ function icon_click() {
             setting_form.style.display = "none";
         }
     });
+}
+
+function get_github_ota(url) {
+    try {
+        let request = new XMLHttpRequest();
+        request.open("POST", `${window.location.origin}/ota/update`, true);
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.send(`url=${url}`);
+        request.addEventListener("load", () => {
+            console.log(data);
+        });
+    } catch(e) {
+
+    }
 }
