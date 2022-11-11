@@ -164,6 +164,11 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len, uint32_t id) {
 
 
 void set_HTML_Server(){
+    if(!SPIFFS.begin()) {
+        Serial.printf("An Error has occurred while mounting SPIFFS\n");
+        while(1);
+    }
+
     // https://tomeko.net/online_tools/file_to_hex.php?lang=en
 
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -206,14 +211,12 @@ void set_HTML_Server(){
     });
 
     /* bootstrap */
-    server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_bootstrap_js, HTML_BOOTSTRAP_JS_LEN);
-        request->send(response);
+    server.on("/bootstrap.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(SPIFFS, "/bootstrap.css", "text/css");
     });
 
-    server.on("/bootstrap.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/css", html_bootstrap_css, HTML_BOOTSTRAP_CSS_LEN);
-        request->send(response);
+    server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(SPIFFS, "/bootstrap.js", "text/javascript");
     });
 
     /* Image */
@@ -234,6 +237,18 @@ void set_HTML_Server(){
     });
 
     /* Data */
+    server.on("/set/default", HTTP_POST, [](AsyncWebServerRequest *request) {
+        int num = set_eeprom_default();
+        if(!num) {
+            request->send(200, "text/plain", "error");
+        } else {
+            request->send(200, "text/plain", "susses");
+        }
+    });
+
+    server.on("/get/info", HTTP_POST, [](AsyncWebServerRequest *request) {
+        request->send(200, "text/plain", esp_info);  
+    });
 
     server.on("/set/info", HTTP_POST, [](AsyncWebServerRequest *request) {
         int error_code = set_server_post_eeprom_data(request);
@@ -260,11 +275,7 @@ void set_HTML_Server(){
             isOTAMode = false;
         }
     });
-
-    server.on("/get/info", HTTP_POST, [](AsyncWebServerRequest *request) {
-        request->send(200, "text/plain", esp_info);  
-    });
-
+    
     server.on("/system/reboot", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send(200, "text/plain", "susses");
         delay(1000);

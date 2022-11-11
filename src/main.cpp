@@ -18,6 +18,11 @@ void loop() {
     ws_loop();
     if(getIsOTAMode()) {
         ESP32PublicGithubOTA ota;
-        ota.firmwareOTA(getOTAUrl().c_str());
+        int error_num = ota.firmwareOTA(getOTAUrl().c_str());
+        if(error_num) {
+            Serial.printf("OTA error: %d\n", error_num);
+        } else {
+            ESP.restart();
+        }
     }
 }

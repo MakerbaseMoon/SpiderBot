@@ -4,12 +4,7 @@
  *  50 ~  74 -> AP SSID
  *  75 ~  99 -> AP Password
  * 100 ~ 124 -> mdns
- * 125 ~ 149 -> 11 OK
- * 150 ~ 174
- * 175 ~ 199
- * 200 ~ 224
- * 225 ~ 249
- * 250 ~ 254 
+ * 125       -> 11 OK
  */
 
 #include <Arduino.h>
@@ -50,6 +45,8 @@ bool set_esp_mdns    (const char*  mdns);
 bool set_github_token(const char*  token);
 bool get_esp_mdns    (char** mdns);
 bool get_github_token(char** token);
+
+bool set_eeprom_default();
 
 /**
  * eeprom_sta.cpp

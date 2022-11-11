@@ -11,7 +11,6 @@
 
 #include "eeprom/eeprom.h"
 
-#include "html/bootstrap.h"
 #include "html/image.h"
 #include "html/index.h"
 #include "html/javascript.h"
