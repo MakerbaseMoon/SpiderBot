@@ -48,32 +48,66 @@
 
                     <div class="d-flex justify-content-center text-black">
                         <div class="row card p-4" id="upgrade_form"  style="display:none;">
-                            <form>
+                            <form onsubmit="return false">
                                 <div class="mb-3">
                                     <h2>ESP32 GitHub OTA</h2>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="firmware_input" class="form-label">GitHub Firmware URL</label>
-                                    <input type="text" class="form-control" aria-describedby="firmware_help">
+                                    <h3><span id="esp_version_tag">ESP32 NOW Version:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="version_tag">GitHub NOW Version:</span></h3>
                                 </div>
-                                <button class="btn btn-outline-primary">Update (手動更新)</button>
-                                <button class="btn btn-outline-primary">Default Update (預設更新)</button>
+                                <div class="mb-3">
+                                    <p id="version_body" style="text-align: left;"></p>
+                                </div>
+                                <button class="btn btn-outline-primary" id="ota_update_btn">Update (更新)</button>
                             </form>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-center text-black mb-3">
                         <div class="row card p-4"  id="setting_form"  style="display:none;">
-                            <form>
+                            <form onsubmit="return false">
                                 <div class="mb-3">
-                                    <label for="wifi_ssid_input" class="form-label">Wi-Fi STA SSID (Wi-Fi STA 帳號)</label>
+                                    <label for="version_input" class="form-label">ESP32 Version</label>
+                                    <input type="text" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="version_input" placeholder="" disabled="disabled">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mac_input" class="form-label">ESP32 MAC Address (ESP32 MAC 地址)</label>
+                                    <input type="text" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="mac_input" placeholder="" disabled="disabled">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="wifi_sta_ssid_input" class="form-label">Wi-Fi STA SSID (Wi-Fi STA 帳號)</label>
                                     <input type="text" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="wifi_sta_ssid_input" placeholder="">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="wifi_passwd_input" class="form-label">Wi-Fi STA Password (Wi-Fi STA 密碼)</label>
-                                    <input type="password" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);">
+                                    <label for="wifi_sta_passwd_input" class="form-label">Wi-Fi STA Password (Wi-Fi STA 密碼)</label>
+                                    <input type="password" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="wifi_sta_passwd_input" placeholder="">
                                 </div>
-                                <button class="btn btn-outline-primary">Update Wi-Fi STA (上傳並更新 STA Wi-Fi)</button>
+                                <div class="mb-3">
+                                    <label for="wifi_sta_ip_input" class="form-label">ESP32 Local IP (ESP32 本地 IP)</label>
+                                    <input type="text" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="wifi_sta_ip_input" placeholder="" disabled="disabled">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="wifi_ap_ssid_input" class="form-label">Wi-Fi AP SSID (Wi-Fi AP 帳號)</label>
+                                    <input type="text" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="wifi_ap_ssid_input" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="wifi_ap_passwd_input" class="form-label">Wi-Fi AP Password (Wi-Fi AP 密碼)</label>
+                                    <input type="password" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="wifi_ap_passwd_input" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="wifi_ap_ip_input" class="form-label">ESP32 SoftAP IP (ESP32 SoftAP IP)</label>
+                                    <input type="text" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="wifi_ap_ip_input" placeholder="" disabled="disabled">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="mdns_input" class="form-label">ESP32 mDNS (ESP32 mDNS)</label>
+                                    <input type="password" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="mdns_input" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <button class="btn btn-outline-primary" id="eeprom_btn">Update ESP32 Data (上傳並更新 ESP32 資料)</button>
+                                </div>
+                                <div class="mb-3">
+                                    <button class="btn btn-outline-primary" id="restart_btn">ESP32 Reboot (ESP32 重啟)</button>
+                                </div>
                             </form>
                         </div>
                     </div>

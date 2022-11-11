@@ -290,7 +290,7 @@ void set_HTML_Server(){
 
 int set_server_post_eeprom_data(AsyncWebServerRequest *request) {
     size_t params = request->params();
-    int server_post_eeprom_data_error_code = 
+    int server_post_eeprom_data_error_code = 0;
     Serial.printf("POST:\n");
     
     for (size_t i = 0; i < params; i++) {
