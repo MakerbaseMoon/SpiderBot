@@ -15,6 +15,7 @@ const upgrade      = document.getElementById("upgrade");
 const setting_form = document.getElementById("setting_form");
 const upgrade_form = document.getElementById("upgrade_form");
 
+const github_list_ul    = document.getElementById("github_list_ul");
 const esp_version_tag   = document.getElementById("esp_version_tag");
 const version_tag       = document.getElementById("version_tag");
 const version_body      = document.getElementById("version_body");
