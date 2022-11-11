@@ -44,5 +44,4 @@ function button_Click() {
         console.log("car right");
         websocket.send("4");
     });
-    
 }
