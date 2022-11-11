@@ -16,6 +16,11 @@ String getLastComm() {
 }
 
 bool getIsOTAMode() {
+    if(isOTAMode) {
+        isOTAMode = false;
+        return true;
+    } 
+    
     return isOTAMode;
 }
 

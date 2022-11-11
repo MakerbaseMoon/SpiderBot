@@ -40,7 +40,8 @@ function get_github_latest_release() {
             version_tag.innerText  = data.tag_name;
             version_body.innerHTML = data.body;
             version_tag.innerText  = "GitHub NOW Version: " + data.tag_name;
-            url = `https://raw.githubusercontent.com/${github_owner}/${github_repo}/releases/download/${data.tag_name}/firmware.bin`;
+            // https://github.com/MakerbaseMoon/SpiderBot/releases/download/v0.1.0/firmware.bin
+            url = `https://github.com/${github_owner}/${github_repo}/releases/download/${data.tag_name}/firmware.bin`;
         });
     } catch(e) {
 
@@ -122,7 +123,7 @@ function get_github_ota(_url) {
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         request.send(`url=${_url}`);
         request.addEventListener("load", () => {
-            console.log(data);
+            console.log(request.responseText);
         });
     } catch(e) {
 
