@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#include <ESP32GithubOTA.h>
+
 #include "internet/internet.h"
 #include "module/servos.h"
 
@@ -13,4 +15,9 @@ void setup() {
 
 void loop() {
     servos_loop();
+    ws_loop();
+    if(getIsOTAMode()) {
+        ESP32PublicGithubOTA ota;
+        ota.firmwareOTA(getOTAUrl().c_str());
+    }
 }

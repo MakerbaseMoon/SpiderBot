@@ -7,3 +7,6 @@
 [submodule "lib/Adafruit-PWM-Servo-Driver-Library"]
 	path = lib/Adafruit-PWM-Servo-Driver-Library
 	url = https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library
+[submodule "lib/ESP32GithubOTA"]
+	path = lib/ESP32GithubOTA
+	url = https://github.com/Hsun1031/ESP32GithubOTA

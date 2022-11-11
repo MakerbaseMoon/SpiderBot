@@ -7,8 +7,24 @@ String lastComm = "";
 
 String esp_info = "";
 
+String ota_url = "";
+
+bool isOTAMode = false;
+
 String getLastComm() {
     return lastComm;
+}
+
+bool getIsOTAMode() {
+    return isOTAMode;
+}
+
+String getOTAUrl() {
+    return ota_url;
+}
+
+void ws_loop() {
+    ws.cleanupClients();
 }
 
 void socket_init() {
@@ -223,22 +239,26 @@ void set_HTML_Server(){
         int error_code = set_server_post_eeprom_data(request);
         if(error_code) {
             Serial.printf("ESP32 Set data error: %d\n", error_code);
-            request->send(200, "text/plain", "Error");
+            request->send(200, "text/plain", "error");
         } else {
-            request->send(200, "text/plain", "OK");
-            delay(1000);
+            request->send(200, "text/plain", "susses");
+            // delay(1000);
             // ESP.restart();
         }
     });
 
     server.on("/ota/update", HTTP_POST, [](AsyncWebServerRequest *request) {
         AsyncWebParameter *param = request->getParam(0);
-        String url = "";
         if(param->name().indexOf("url") >= 0) {
-            url = param->value();
+            ota_url = param->value();
+            Serial.printf("ESP32 Github Url: %s\n", ota_url.c_str());
+            request->send(200, "text/plain", "susses");
+            isOTAMode = true;
+
+        } else {
+            request->send(200, "text/plain", "error");
+            isOTAMode = false;
         }
-        Serial.printf("ESP32 Github Url: %s\n", url.c_str());
-        request->send(200, "text/plain", "susses");  
     });
 
     server.on("/get/info", HTTP_POST, [](AsyncWebServerRequest *request) {
@@ -247,6 +267,7 @@ void set_HTML_Server(){
 
     server.on("/system/reboot", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send(200, "text/plain", "susses");
+        delay(1000);
         ESP.restart();
     });
 
