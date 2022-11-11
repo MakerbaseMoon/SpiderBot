@@ -156,7 +156,7 @@ void set_HTML_Server(){
     });
     
     server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", bootstrap_js, BOOTSTRAP_JS_LEN);
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_bootstrap_js, HTML_BOOTSTRAP_JS_LEN);
         request->send(response);
     });
 
@@ -177,7 +177,7 @@ void set_HTML_Server(){
     });
 
     server.on("/wifi.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_WiFi_js, HTML_WIFI_JS_LEN);
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_wifi_js, HTML_WIFI_JS_LEN);
         request->send(response);
     });
 
@@ -192,21 +192,21 @@ void set_HTML_Server(){
     });
 
     server.on("/bootstrap.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/css", bootstrap_css, BOOTSTRAP_CSS_LEN);
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/css", html_bootstrap_css, HTML_BOOTSTRAP_CSS_LEN);
         request->send(response);
     });
 
     server.on("/img/favicon.jpg", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_ico_gz, FAVICON_ICO_GZ_LEN);
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_jpg, FAVICON_JPG_LEN);
         request->send(response);
     });
 
     server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_ico_gz, FAVICON_ICO_GZ_LEN);
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_jpg, FAVICON_JPG_LEN);
         request->send(response);
     });
 
-    server.on("/spider_jpg", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/img/spider.jpg", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", spider_jpg, SPIDER_JPG_LEN);
         request->send(response);
     });

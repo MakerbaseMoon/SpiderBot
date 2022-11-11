@@ -88,9 +88,8 @@ bool is_eeprom_data(int start) {
 }
 
 void show_eeprom_data(bool toChar = false) {
-#ifdef ESP32_CLEANER_SHOW_DEBUG
-    for(size_t i = 0; i < 255; i++) {
-        uint8_t _data = EEPROM.read(i);
+for(size_t i = 0; i < 255; i++) {
+    uint8_t _data = EEPROM.read(i);
 
 #ifdef ESP32_KEY
         _data ^= ESP32_KEY;
@@ -104,15 +103,15 @@ void show_eeprom_data(bool toChar = false) {
         _data ^= ESP32_KEY_3;
 #endif
 
-        if(!(i % 10))
-            Serial.printf("\n");
-        if(toChar)
-            Serial.printf("%c, ", (char)_data);
-        else
-            Serial.printf("%d, ", (int)_data);
-    }
-    Serial.printf("\n");
-#endif
+    if(!(i % 10))
+        Serial.printf("\n");
+    if(toChar)
+        Serial.printf("%c, ", (char)_data);
+    else
+        Serial.printf("%d, ", (int)_data);
+}
+Serial.printf("\n");
+
 }
 
 void clean_eeprom_data() {

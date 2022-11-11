@@ -8,11 +8,16 @@ bool eeprom_setup(char** ssid, char** passwd, char** ap_ssid, char** ap_passwd, 
 
     if(EEPROM.read(SPIDER_DEFAULT_OK_ADDRESS) != SPIDER_DEFAULT_OK_NUM) {
         clean_eeprom_data();
+
         EEPROM.write(SPIDER_DEFAULT_OK_ADDRESS, SPIDER_DEFAULT_OK_NUM);
+        EEPROM.commit();
 
         set_ssid(SPIDER_DEFAULT_STA_SSID);
+
         set_passwd(SPIDER_DEFAULT_STA_PASSWD);
+
         set_ap_ssid(SPIDER_DEFAULT_AP_SSID);
+
         set_ap_passwd(SPIDER_DEFAULT_AP_PASSWD);
 
         set_esp_mdns(SPIDER_DEFAULT_MDNS);
