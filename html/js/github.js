@@ -56,6 +56,12 @@ function get_github_latest_release() {
             // https://github.com/MakerbaseMoon/SpiderBot/releases/download/v0.1.0/firmware.bin
             ota_data.url = `https://github.com/${github_owner}/${github_repo}/releases/download/${ota_data.tag_name}/firmware.bin`;
             show_ota_data();
+
+            if(my_esp_data.version > github_latest_version) {
+                upgrade.style.color = 'red';
+            } else if(my_esp_data.version < github_latest_version){
+                upgrade.style.color = 'purple';
+            }
         });
     } catch(e) {
 
