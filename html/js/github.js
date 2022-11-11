@@ -3,7 +3,11 @@ let github_repo = "SpiderBot";
 
 let github_list = [];
 
-let url = "";
+let ota_data = {
+    url: "",
+    tag_name: null,
+    body: null
+};
 
 function get_github_list_releases() {
     try {
@@ -13,13 +17,19 @@ function get_github_list_releases() {
         // request.setRequestHeader("Authorization", `Bearer ${token}`);
         request.send();
         request.addEventListener("load", () => {
+            github_list = []
             let data = JSON.parse(request.responseText);
-            for(let i = 0; i < data.length; i++) {
-                // console.log(data[i])
-                // github_list[i]['tag_name']  = data[i].tag_name;
-                // github_list[i]['body']      = data[i].body;
-                // console.log(data[i].tag_name);
-                // console.log(data[i].body);
+            try {
+                for(let i = 0; i < data.length; i++) {
+                    let _data = {
+                        tag_name: data[i].tag_name,
+                        body: data[i].body
+                    }
+                    github_list.push(_data);
+                }
+                console.log(github_list);
+            } catch(e) { 
+                console.log(e);
             }
         });
     } catch(e) {
@@ -37,11 +47,12 @@ function get_github_latest_release() {
         request.addEventListener("load", () => {
             let data = JSON.parse(request.responseText);
             console.log(data);
-            version_tag.innerText  = data.tag_name;
-            version_body.innerHTML = data.body;
-            version_tag.innerText  = "GitHub NOW Version: " + data.tag_name;
+            ota_data.tag_name = data.tag_name;
+            ota_data.body = data.body;
+
             // https://github.com/MakerbaseMoon/SpiderBot/releases/download/v0.1.0/firmware.bin
-            url = `https://github.com/${github_owner}/${github_repo}/releases/download/${data.tag_name}/firmware.bin`;
+            ota_data.url = `https://github.com/${github_owner}/${github_repo}/releases/download/${ota_data.tag_name}/firmware.bin`;
+            show_ota_data();
         });
     } catch(e) {
 
@@ -58,6 +69,12 @@ function get_github_release_by_id({release_id}) {
         request.addEventListener("load", () => {
             let data = JSON.parse(request.responseText);
             console.log(data);
+            ota_data.tag_name   = data.tag_name;
+            ota_data.body       = data.body;
+            
+            // https://github.com/MakerbaseMoon/SpiderBot/releases/download/v0.1.0/firmware.bin
+            ota_data.url = `https://github.com/${github_owner}/${github_repo}/releases/download/${ota_data.tag_name}/firmware.bin`;
+            show_ota_data();
         });
     } catch(e) {
 
@@ -74,6 +91,12 @@ function get_github_release_by_tag_name(tag) {
         request.addEventListener("load", () => {
             let data = JSON.parse(request.responseText);
             console.log(data);
+            ota_data.tag_name   = data.tag_name;
+            ota_data.body       = data.body;
+            
+            // https://github.com/MakerbaseMoon/SpiderBot/releases/download/v0.1.0/firmware.bin
+            ota_data.url = `https://github.com/${github_owner}/${github_repo}/releases/download/${ota_data.tag_name}/firmware.bin`;
+            show_ota_data();
         });
     } catch(e) {
 
@@ -99,19 +122,12 @@ function icon_click() {
             upgrade_form.style.display = "none";
             setting_form.style.display = "none";
         }
-        if(esp_version_tag != version_tag) {
-            esp_version_tag.style.color = 'red';
-            version_tag.style.color = 'blue';
-        } else {
-            esp_version_tag.style.color = 'black';
-            version_tag.style.color = 'gray';
-        }
     });
 }
 
 ota_update_btn.addEventListener('click', () => {
-    if(url != "") {
-        get_github_ota(url);
+    if(ota_data.url != "") {
+        get_github_ota(ota_data.url);
         ota_update_btn.disabled = true;
     }
 });
@@ -128,4 +144,33 @@ function get_github_ota(_url) {
     } catch(e) {
 
     }
+}
+
+function show_ota_data() {
+    ota_update_btn.classList = [];
+    ota_update_btn.classList.add("btn");
+
+    if(my_esp_data.version != ota_data.tag_name) {
+        ota_update_btn.disabled = false;
+        if(my_esp_data.version > ota_data.tag_name) {
+            esp_version_tag.style.color = 'purple';
+            version_tag.style.color = 'gray';
+            ota_update_btn.classList.add("btn-outline-warning");
+            ota_update_btn.innerText = `Downgrade ${ota_data.tag_name} (更新舊版本 ${ota_data.tag_name})`;
+        } else {
+            esp_version_tag.style.color = 'red';
+            version_tag.style.color = 'blue';
+            ota_update_btn.classList.add("btn-outline-danger");
+            ota_update_btn.innerText = `Update ${ota_data.tag_name} (更新版本 ${ota_data.tag_name})`;
+        }
+    } else {
+        esp_version_tag.style.color = 'black';
+        version_tag.style.color = 'gray';
+        ota_update_btn.disabled = true;
+        ota_update_btn.classList.add("btn-outline-secondary");
+        ota_update_btn.innerText = `NO Update (相同版本)`;
+    }
+
+    version_body.innerHTML = ota_data.body;
+    version_tag.innerText  = "GitHub NOW Version: " + ota_data.tag_name;
 }

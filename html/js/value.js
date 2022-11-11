@@ -1,4 +1,5 @@
 let websocket;
+let my_esp_data;
 
 const forward      = document.getElementById("forward");
 const left         = document.getElementById("left");
