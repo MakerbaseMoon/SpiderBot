@@ -154,17 +154,13 @@ void set_HTML_Server(){
         AsyncWebServerResponse *response = request->beginResponse_P(200, "text/html", html_index_html, HTML_INDEX_HTML_LEN);
         request->send(response);
     });
-    
-    server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_bootstrap_js, HTML_BOOTSTRAP_JS_LEN);
-        request->send(response);
-    });
+
+    /* javascript */
 
     server.on("/main.js", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_main_js, HTML_MAIN_JS_LEN);
         request->send(response);
     });
-
 
     server.on("/value.js", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_value_js, HTML_VALUE_JS_LEN);
@@ -186,8 +182,16 @@ void set_HTML_Server(){
         request->send(response);
     });
 
+    /* css */
+
     server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "text/css", html_style_css, HTML_STYLE_CSS_LEN);
+        request->send(response);
+    });
+
+    /* bootstrap */
+    server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_bootstrap_js, HTML_BOOTSTRAP_JS_LEN);
         request->send(response);
     });
 
@@ -196,12 +200,14 @@ void set_HTML_Server(){
         request->send(response);
     });
 
-    server.on("/img/favicon.jpg", HTTP_GET, [](AsyncWebServerRequest *request) {
+    /* Image */
+
+    server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_jpg, FAVICON_JPG_LEN);
         request->send(response);
     });
 
-    server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request) {
+    server.on("/img/favicon.jpg", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_jpg, FAVICON_JPG_LEN);
         request->send(response);
     });
@@ -211,10 +217,7 @@ void set_HTML_Server(){
         request->send(response);
     });
 
-    server.on("/system/reboot", HTTP_GET, [](AsyncWebServerRequest *request) {
-         request->send(200, "text/plain", "susses");
-         ESP.restart();
-    });
+    /* Data */
 
     server.on("/set/info", HTTP_POST, [](AsyncWebServerRequest *request) {
         int error_code = set_server_post_eeprom_data(request);
@@ -240,6 +243,16 @@ void set_HTML_Server(){
 
     server.on("/get/info", HTTP_POST, [](AsyncWebServerRequest *request) {
         request->send(200, "text/plain", esp_info);  
+    });
+
+    server.on("/system/reboot", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(200, "text/plain", "susses");
+        ESP.restart();
+    });
+
+    /* 404 */
+    server.onNotFound([](AsyncWebServerRequest *request){
+        request->send(404, "text/plain", "Spider BOT 404 NOT Found!");
     });
 }
 
