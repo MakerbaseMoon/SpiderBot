@@ -23,6 +23,8 @@ function get_esp_info_data() {
             mdns_input.           placeholder = data.mdns;
 
             esp_version_tag.innerText = "ESP32 NOW Version: " + data.version;
+            
+            my_esp_data.isOK = true;
         });
     } catch(e) {
 
