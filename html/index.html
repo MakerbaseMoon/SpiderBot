@@ -40,27 +40,30 @@
                             <path fill-rule="evenodd" d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"></path>
                             <path fill-rule="evenodd" d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3z"></path>
                         </svg>
-                        <p class="h1 mt-1 p-2 px-5"> Spider Robot</p>
+                        <p class="h1 mt-1 mb-3 p-2 px-5 text-black"> Spider Robot</p>
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-gear-fill mt-2" viewBox="0 0 16 16" id="setting">
                             <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"></path>
                         </svg>
                     </div>
 
-                    <div class="d-flex justify-content-center">
-                        <form>
-                            <div class="mb-3">
-                                <label for="wifi_ssid_input" class="form-label">Wi-Fi STA SSID (Wi-Fi STA 帳號)</label>
-                                <input type="text" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="wifi_ap_ssid_input" placeholder="">
-                            </div>
-                            <div class="mb-3">
-                                <label for="wifi_passwd_input" class="form-label">Wi-Fi STA Password (Wi-Fi STA 密碼)</label>
-                                <input type="password" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="wifi_ap_passwd_input">
-                            </div>
-                        </form>
+                    <div class="d-flex justify-content-center text-black">
+                        <div class="row card p-4" id="upgrade_form"  style="display:none;">
+                            <form>
+                                <div class="mb-3">
+                                    <h2>ESP32 GitHub OTA</h2>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="firmware_input" class="form-label">GitHub Firmware URL</label>
+                                    <input type="text" class="form-control" aria-describedby="firmware_help">
+                                </div>
+                                <button class="btn btn-outline-primary">Update (手動更新)</button>
+                                <button class="btn btn-outline-primary">Default Update (預設更新)</button>
+                            </form>
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-center text-black mb-3">
-                        <div class="card p-4">
+                        <div class="row card p-4"  id="setting_form"  style="display:none;">
                             <form>
                                 <div class="mb-3">
                                     <label for="wifi_ssid_input" class="form-label">Wi-Fi STA SSID (Wi-Fi STA 帳號)</label>
@@ -68,15 +71,16 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="wifi_passwd_input" class="form-label">Wi-Fi STA Password (Wi-Fi STA 密碼)</label>
-                                    <input type="password" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="wifi_sta_passwd_input">
+                                    <input type="password" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);">
                                 </div>
+                                <button class="btn btn-outline-primary">Update Wi-Fi STA (上傳並更新 STA Wi-Fi)</button>
                             </form>
                         </div>
                     </div>
 
 
-                    <img class="col-md-6 float-md-end mb-3 ms-md-3" src="/img/spider.jpg">
-                    <div class="col">
+                    <img class="col-md-6 float-md-end mt-2 mb-3 ms-md-3" src="/img/spider.jpg">
+                    <div class="col mt-2">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" class="bi bi-arrow-up-circle-fill p-1" viewBox="0 0 16 16" id="forward">
                                 <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
@@ -105,7 +109,7 @@
             </div>
         </main>
         <footer class="text-center" id="aboutme">
-            <div class="text-muted footer_div text-center p-2">
+            <div class="text-muted footer_div text-center p-4">
                 <p class="mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-moon-stars" viewBox="0 0 16 16">
                         <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278zM4.858 1.311A7.269 7.269 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.316 7.316 0 0 0 5.205-2.162c-.337.042-.68.063-1.029.063-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286z"/>

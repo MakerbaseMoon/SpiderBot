@@ -66,3 +66,25 @@ function get_github_release_by_tag_name(tag) {
 
     }
 }
+
+function icon_click() { 
+    setting.addEventListener('click', ()=> { 
+        if(setting_form.style.display === "none") { 
+            setting_form.style.display = "block";
+            upgrade_form.style.display = "none"
+        } else {
+            setting_form.style.display = "none";
+            upgrade_form.style.display = "none"
+        }
+    }); 
+
+    upgrade.addEventListener('click', ()=> { 
+        if (upgrade_form.style.display === "none") {
+            upgrade_form.style.display = "block";
+            setting_form.style.display = "none";
+        } else {
+            upgrade_form.style.display = "none";
+            setting_form.style.display = "none";
+        }
+    });
+}

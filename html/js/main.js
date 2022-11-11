@@ -6,4 +6,5 @@ function OnLoad() {
     get_esp_info_data();
     get_github_list_releases();
     get_github_latest_release();
+    icon_click();
 };

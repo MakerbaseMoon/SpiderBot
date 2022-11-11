@@ -8,3 +8,6 @@ let back         = document.getElementById("back");
 
 let setting      = document.getElementById("setting");
 let upgrade      = document.getElementById("upgrade");
+
+let setting_form = document.getElementById("setting_form");
+let upgrade_form = document.getElementById("upgrade_form");
