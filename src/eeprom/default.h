@@ -1,4 +1,4 @@
-#define SPIDER_VERSION "v0.1.0"
+#define SPIDER_VERSION "v0.1.5"
 
 #define SPIDER_DEFAULT_OK_ADDRESS 125
 #define SPIDER_DEFAULT_OK_NUM      11

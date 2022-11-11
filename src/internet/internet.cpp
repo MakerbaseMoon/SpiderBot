@@ -224,6 +224,10 @@ void set_HTML_Server(){
         request->send(SPIFFS, "/bootstrap.js", "text/javascript");
     });
 
+    server.on("/bootstrap.bundle.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(SPIFFS, "/bootstrap.bundle.js", "text/javascript");
+    });
+
     /* Image */
 
     server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request) {

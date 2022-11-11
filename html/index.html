@@ -57,7 +57,15 @@
                         <div class="row card p-4" id="upgrade_form"  style="display:none;">
                             <form onsubmit="return false">
                                 <div class="mb-3">
-                                    <h2>ESP32 GitHub OTA</h2>
+                                    <div class="dropdown">
+                                        <span class="h3">ESP32 GitHub OTA</span>
+                                        <button aria-expanded="false" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" type="button"></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
                                     <h3><span id="esp_version_tag">ESP32 NOW Version:</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="version_tag">GitHub NOW Version:</span></h3>
@@ -110,7 +118,7 @@
                                     <input type="password" class="form-control" style="background-color: rgba(217, 233, 248, 0.7);" id="mdns_input" placeholder="">
                                 </div>
                                 <div class="mb-3">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="eeprom_btn">
                                         Update ESP32 Data (上傳並更新 ESP32 資料)
                                     </button>
                                       
@@ -119,15 +127,17 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Update ESP32 Data</h1>
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Update ESP32 Data (ESP32 EEPROM 上傳程式)</h1>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    是否重啟?
+                                                    <span style="color: red;">請注意! 重新啟動之後資料才會顯示在上面!!</span>
+                                                    <br>
+                                                    <span id="eeprom_restart_span">正在上傳資料中...</span>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                                    <button type="button" class="btn btn-primary" id="eeprom_btn">確定</button>
+                                                    <button type="button" class="btn btn-danger"  id="eeprom_restart_btn">重啟</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -185,6 +195,7 @@
         </footer>
     </body>
     <script src="/bootstrap.js"></script>
+    <script src="/bootstrap.bundle.js"></script>
     <script src="/value.js"></script>
     <script src="/websocket.js"></script>
     <script src="/wifi.js"></script>
