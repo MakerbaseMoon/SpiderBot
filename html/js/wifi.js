@@ -31,12 +31,15 @@ function get_esp_info_data() {
 
 function set_esp_eeprom_data(ssid, passwd, ap_ssid, ap_passwd, mdns) {
     try {
+        eeprom_restart_btn.disabled = true;
         let request = new XMLHttpRequest();
         request.open("POST", `${window.location.origin}/set/info`, true);
         request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         let data = `0=${ssid}&1=${passwd}&2=${ap_ssid}&3=${ap_passwd}&4=${mdns}`;
         request.send(data);
         request.addEventListener("load", () => {
+            eeprom_restart_btn.disabled = false;
+            eeprom_restart_span.innerText = "資料上傳完畢 是否要重啟？";
             console.log(request.responseText);
         });
     } catch(e) {
@@ -46,7 +49,11 @@ function set_esp_eeprom_data(ssid, passwd, ap_ssid, ap_passwd, mdns) {
 
 eeprom_btn.addEventListener('click', update_data_click);
 
-restart_btn.addEventListener('click', ()=> {
+restart_btn.addEventListener('click', esp_restart);
+
+eeprom_restart_btn.addEventListener('click', esp_restart);
+
+function esp_restart() {
     let request = new XMLHttpRequest();
     request.open("GET", `${window.location.origin}/system/reboot`, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -54,7 +61,7 @@ restart_btn.addEventListener('click', ()=> {
     request.addEventListener("load", () => {
         console.log(request.responseText);
     });
-});
+}
 
 function update_data_click() {
     let ssid        = (wifi_sta_ssid_input.  value == "")? wifi_sta_ssid_input.  placeholder :wifi_sta_ssid_input.  value;

@@ -28,5 +28,7 @@ const wifi_ap_passwd_input  = document.getElementById("wifi_ap_passwd_input");
 const wifi_ap_ip_input      = document.getElementById("wifi_ap_ip_input");
 const mdns_input            = document.getElementById("mdns_input");
 
-const eeprom_btn            = document.getElementById("eeprom_btn");
-const restart_btn           = document.getElementById("restart_btn");
+const eeprom_btn          = document.getElementById("eeprom_btn");
+const eeprom_restart_span = document.getElementById("eeprom_restart_span");
+const eeprom_restart_btn  = document.getElementById("eeprom_restart_btn");
+const restart_btn         = document.getElementById("restart_btn");
