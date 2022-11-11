@@ -3,6 +3,8 @@ let github_repo = "SpiderBot";
 
 let github_list = [];
 
+let github_latest_version = null;
+
 let ota_data = {
     url: "",
     tag_name: null,
@@ -47,6 +49,7 @@ function get_github_latest_release() {
         request.addEventListener("load", () => {
             let data = JSON.parse(request.responseText);
             console.log(data);
+            github_latest_version = data.tag_name;
             ota_data.tag_name = data.tag_name;
             ota_data.body = data.body;
 
@@ -154,7 +157,7 @@ function show_ota_data() {
         ota_update_btn.disabled = false;
         if(my_esp_data.version > ota_data.tag_name) {
             esp_version_tag.style.color = 'purple';
-            version_tag.style.color = 'gray';
+            version_tag.style.color = 'orange';
             ota_update_btn.classList.add("btn-outline-warning");
             ota_update_btn.innerText = `Downgrade ${ota_data.tag_name} (更新舊版本 ${ota_data.tag_name})`;
         } else {
@@ -171,6 +174,10 @@ function show_ota_data() {
         ota_update_btn.innerText = `NO Update (相同版本)`;
     }
 
+    version_tag.innerText  = "GitHub Version: " + ota_data.tag_name;
     version_body.innerHTML = ota_data.body;
-    version_tag.innerText  = "GitHub NOW Version: " + ota_data.tag_name;
+
+    if(github_latest_version = ota_data.tag_name) {
+        version_tag.innerText = "GitHub Version: latest";
+    }    
 }
