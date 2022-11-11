@@ -78,9 +78,9 @@ function get_github_latest_release() {
             show_ota_data();
 
             if(my_esp_data.version > github_latest_version) {
-                upgrade.style.color = 'red';
-            } else if(my_esp_data.version < github_latest_version){
                 upgrade.style.color = 'purple';
+            } else if(my_esp_data.version < github_latest_version){
+                upgrade.style.color = 'red';
             }
         });
     } catch(e) {
@@ -169,6 +169,7 @@ function get_github_ota(_url) {
         request.send(`url=${_url}`);
         request.addEventListener("load", () => {
             console.log(request.responseText);
+            window.location.reload();
         });
     } catch(e) {
 
@@ -203,7 +204,7 @@ function show_ota_data() {
     version_tag.innerText  = "GitHub Version: " + ota_data.tag_name;
     version_body.innerHTML = ota_data.body;
 
-    if(github_latest_version = ota_data.tag_name) {
+    if(github_latest_version == ota_data.tag_name) {
         version_tag.innerText = `GitHub Version: ${ota_data.tag_name} (latest)`;
     }    
 }
