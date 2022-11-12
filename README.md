@@ -2,6 +2,7 @@
 ![](https://img.shields.io/badge/version-v0.2.0-blue) ![](https://img.shields.io/badge/platformIO%20core-6.1.5-orange) ![](https://img.shields.io/badge/Espressif%2032-5.1.1-green)<br>
 ESP32 蜘蛛機器人 - 第一代 <br>
 This is the Spider Bot project for maker. <br>
+<img src="https://github.com/MakerbaseMoon/SpiderBot/releases/download/v0.0.1/spider.jpg"></img>
 
 * Group: 望月智聯網研究團隊
 * Member: [jlhsu666](https://github.com/jlhsu666), [Hsun1031](https://github.com/Hsun1031), [Reaxoh](https://github.com/Reaxoh)
