@@ -19,7 +19,7 @@ This is the Spider Bot project for maker. <br>
 
 ```
 git clone https://github.com/MakerbaseMoon/SpiderBot.git
-git submodule update --init --recursive5
+git submodule update --init --recursive
 ``` 
 
 ## project files (專案檔案)
