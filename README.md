@@ -16,7 +16,7 @@ git submodule update --init --recursive
 ## project files (專案檔案)
 
 ```
-├───.vscode
+┌───.vscode
 │       c_cpp_properties.json
 │       extensions.json
 │       launch.json
