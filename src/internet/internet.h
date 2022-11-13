@@ -20,6 +20,8 @@ void set_HTML_Server();
 void initWebSocket();
 void ws_loop();
 
+void ota_loop();
+
 void handleWebSocketMessage(void*, uint8_t*, size_t, uint32_t);
 void onEvent(AsyncWebSocket*, AsyncWebSocketClient*, AwsEventType, void*, uint8_t*, size_t);
 

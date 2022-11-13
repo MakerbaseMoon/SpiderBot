@@ -32,7 +32,24 @@ void ws_loop() {
     ws.cleanupClients();
 }
 
+void ota_loop() {
+    if(getIsOTAMode()) {
+        ESP32PublicGithubOTA ota;
+        int error_num = ota.firmwareOTA(getOTAUrl().c_str());
+        if(error_num) {
+            Serial.printf("OTA error: %d\n", error_num);
+        } else {
+            ESP.restart();
+        }
+    }
+}
+
 void socket_init() {
+    if(!SPIFFS.begin()) {
+        Serial.printf("An Error has occurred while mounting SPIFFS\n");
+        while(1);
+    }
+
     char* ssid = NULL;
     char* passwd = NULL;
 
@@ -118,7 +135,7 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventTyp
             break;
 
         case WS_DISCONNECT:
-            Serial.printf("WebSocket client #%u connected\n", client->id());
+            Serial.printf("WebSocket client #%u disconnected\n", client->id());
             break;
 
         case WS_EVT_DATA:
@@ -169,13 +186,6 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len, uint32_t id) {
 
 
 void set_HTML_Server(){
-    if(!SPIFFS.begin()) {
-        Serial.printf("An Error has occurred while mounting SPIFFS\n");
-        while(1);
-    }
-
-    // https://tomeko.net/online_tools/file_to_hex.php?lang=en
-
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "text/html", html_index_gz_html, HTML_INDEX_HTML_GZ_LEN);
         response->addHeader("Content-Encoding", "gzip");
@@ -183,7 +193,6 @@ void set_HTML_Server(){
     });
 
     /* javascript */
-
     server.on("/javascript.js", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_javascript_js_gz, HTML_JAVASCRIPT_JS_GZ_LEN);
         response->addHeader("Content-Encoding", "gzip");
@@ -211,7 +220,6 @@ void set_HTML_Server(){
     });
 
     /* Image */
-
     server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_jpg, FAVICON_JPG_LEN);
         request->send(response);
