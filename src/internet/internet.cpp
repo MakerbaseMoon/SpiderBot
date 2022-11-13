@@ -177,34 +177,16 @@ void set_HTML_Server(){
     // https://tomeko.net/online_tools/file_to_hex.php?lang=en
 
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/html", html_index_html, HTML_INDEX_HTML_LEN);
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/html", html_index_gz_html, HTML_INDEX_HTML_GZ_LEN);
+        response->addHeader("Content-Encoding", "gzip");
         request->send(response);
     });
 
     /* javascript */
 
-    server.on("/main.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_main_js, HTML_MAIN_JS_LEN);
-        request->send(response);
-    });
-
-    server.on("/value.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_value_js, HTML_VALUE_JS_LEN);
-        request->send(response);
-    });
-    
-    server.on("/websocket.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_websocket_js, HTML_WEBSOCKET_JS_LEN);
-        request->send(response);
-    });
-
-    server.on("/wifi.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_wifi_js, HTML_WIFI_JS_LEN);
-        request->send(response);
-    });
-
-    server.on("/github.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_github_js, HTML_GITHUB_JS_LEN);
+    server.on("/javascript.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/javascript", html_javascript_js_gz, HTML_JAVASCRIPT_JS_GZ_LEN);
+        response->addHeader("Content-Encoding", "gzip");
         request->send(response);
     });
 
@@ -217,15 +199,15 @@ void set_HTML_Server(){
 
     /* bootstrap */
     server.on("/bootstrap.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(SPIFFS, "/bootstrap.css", "text/css");
+        AsyncWebServerResponse *response = request->beginResponse(SPIFFS, "/bootstrap.css.gz", "text/css", false);
+        response->addHeader("Content-Encoding", "gzip");
+        request->send(response);
     });
 
-    server.on("/bootstrap.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(SPIFFS, "/bootstrap.js", "text/javascript");
-    });
-
-    server.on("/bootstrap.bundle.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(SPIFFS, "/bootstrap.bundle.js", "text/javascript");
+    server.on("/bootstrap.bundle.min.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse(SPIFFS, "/bootstrap.bundle.min.js.gz", "text/javascript", false);
+        response->addHeader("Content-Encoding", "gzip");
+        request->send(response);
     });
 
     /* Image */
