@@ -1,5 +1,5 @@
 # Spider Bot (蜘蛛機器人)
-![](https://img.shields.io/badge/version-v0.2.0-blue) ![](https://img.shields.io/badge/platformIO%20core-6.1.5-orange) ![](https://img.shields.io/badge/Espressif%2032-5.1.1-green)<br>
+![](https://img.shields.io/badge/version-v0.2.5-blue) ![](https://img.shields.io/badge/platformIO%20core-6.1.5-orange) ![](https://img.shields.io/badge/Espressif%2032-5.1.1-green)<br>
 ESP32 蜘蛛機器人 - 第一代 <br>
 This is the Spider Bot project for maker. <br>
 <img src="https://github.com/MakerbaseMoon/SpiderBot/releases/download/v0.0.1/spider.jpg"></img>
@@ -25,12 +25,10 @@ git submodule update --init --recursive
 │       settings.json
 │
 ├───data
-│       bootstrap.bundle.js
-│       bootstrap.css
-│       bootstrap.js
+│       bootstrap.bundle.min.js.gz
+│       bootstrap.css.gx
 │
 ├───html
-│   │   index.html
 │   │
 │   ├───css
 │   │       style.css
@@ -39,14 +37,18 @@ git submodule update --init --recursive
 │   │       favicon.jpg
 │   │       spider.jpg
 │   │
-│   └───js
-│           github.js
-│           main.js
-│           value.js
-│           websocket.js
-│           wifi.js
+│   ├───js
+│   │       github.js
+│   │       main.js
+│   │       value.js
+│   │       websocket.js
+│   │       wifi.js
+│   │
+│   └   index.html
 │
 ├───include
+│       README
+│       
 ├───lib
 │   ├───Adafruit-PWM-Servo-Driver-Library
 │   ├───AsyncTCP
