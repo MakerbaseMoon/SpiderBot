@@ -65,9 +65,19 @@ bool set_eeprom_default() {
     EEPROM.write(SPIDER_DEFAULT_OK_ADDRESS, SPIDER_DEFAULT_OK_NUM);
     EEPROM.commit();
 
+    #ifdef SPIDER_STA_SSID
+
+    set_ssid(SPIDER_STA_SSID);
+
+    set_passwd(SPIDER_STA_PASSWD);
+
+    #else
+
     set_ssid(SPIDER_DEFAULT_STA_SSID);
 
     set_passwd(SPIDER_DEFAULT_STA_PASSWD);
+
+    #endif
 
     set_ap_ssid(SPIDER_DEFAULT_AP_SSID);
 
