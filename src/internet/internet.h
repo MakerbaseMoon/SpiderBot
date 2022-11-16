@@ -16,7 +16,14 @@
 #include "html/javascript.h"
 #include "html/style.h"
 
-void set_HTML_Server();
+// #define HTML_DEBUG_MODE
+
+void set_HTML_server();
+#ifndef HTML_DEBUG_MODE
+void set_HTML_page();
+#else
+void set_HTML_page_debug();
+#endif
 void initWebSocket();
 void ws_loop();
 

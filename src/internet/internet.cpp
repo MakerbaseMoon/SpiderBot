@@ -117,7 +117,12 @@ void socket_init() {
     esp_info += WiFi.macAddress();
     esp_info += "\"}";
 
-    set_HTML_Server();
+    #ifndef HTML_DEBUG_MODE
+    set_HTML_page();
+    #else
+    set_HTML_page_debug();
+    #endif
+    set_HTML_server();
     initWebSocket();
 
     server.begin();  
@@ -183,9 +188,57 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len, uint32_t id) {
        }        
     }
 }
+#ifdef HTML_DEBUG_MODE
+void set_HTML_page_debug() {
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse(SPIFFS, "/index.html","text/html");
+        request->send(response);
+    });
 
+    /* javascript */
+    server.on("/javascript.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse(SPIFFS, "/js/javascript.js","text/html");
+        request->send(response);
+    });
 
-void set_HTML_Server(){
+    /* css */
+
+    server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse(SPIFFS, "/css/style.css","text/css");
+        request->send(response);
+    });
+
+    /* bootstrap */
+    server.on("/bootstrap.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse(SPIFFS, "/bootstrap.css.gz", "text/css", false);
+        response->addHeader("Content-Encoding", "gzip");
+        request->send(response);
+    });
+
+    server.on("/bootstrap.bundle.min.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse(SPIFFS, "/bootstrap.bundle.min.js.gz", "text/javascript", false);
+        response->addHeader("Content-Encoding", "gzip");
+        request->send(response);
+    });
+
+    /* Image */
+    server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_jpg, FAVICON_JPG_LEN);
+        request->send(response);
+    });
+
+    server.on("/img/favicon.jpg", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", favicon_jpg, FAVICON_JPG_LEN);
+        request->send(response);
+    });
+
+    server.on("/img/spider.jpg", HTTP_GET, [](AsyncWebServerRequest *request) {
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", spider_jpg, SPIDER_JPG_LEN);
+        request->send(response);
+    });
+}
+#else
+void set_HTML_page() {
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
         AsyncWebServerResponse *response = request->beginResponse_P(200, "text/html", html_index_gz_html, HTML_INDEX_HTML_GZ_LEN);
         response->addHeader("Content-Encoding", "gzip");
@@ -234,7 +287,9 @@ void set_HTML_Server(){
         AsyncWebServerResponse *response = request->beginResponse_P(200, "image/jpg", spider_jpg, SPIDER_JPG_LEN);
         request->send(response);
     });
-
+}
+#endif
+void set_HTML_server() {
     /* Data */
     server.on("/set/default", HTTP_POST, [](AsyncWebServerRequest *request) {
         int num = set_eeprom_default();
